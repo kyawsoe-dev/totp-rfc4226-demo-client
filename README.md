@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# TOTP 2FA Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React frontend for the TOTP 2FA demo application.
+
+## Quick Start
+
+```bash
+cd client
+npm install
+npm start
+```
+
+App runs on `http://localhost:3000` (or next available port)
+
+## Prerequisites
+
+- Backend must be running on `http://localhost:3000`
+- Node.js 18+
+
+## Default Credentials
+
+- Username: `demo`
+- Password: `password123`
+
+## Features
+
+### Login Flow
+1. Enter username and password
+2. If 2FA is enabled, enter OTP from your authenticator app
+3. Or use a backup code if OTP unavailable
+
+### Setup 2FA with Mobile Authenticator (QR Flow)
+
+**Step 1: Generate QR Code**
+1. Log in to the dashboard
+2. Click "Generate QR Code" button
+3. A QR code will be displayed on screen
+
+**Step 2: Scan with Your Phone**
+1. Open your authenticator app (Google Authenticator, Authy, Microsoft Authenticator, etc.)
+2. Scan the QR code displayed on the web page
+3. If you can't scan, you can manually enter the secret code shown below the QR
+
+**Step 3: Enter OTP to Confirm**
+1. After scanning, your authenticator app will show a 6-digit code
+2. Enter that code in the input field on the web page
+3. Click "Confirm & Enable 2FA"
+
+Your device is now registered and can be used for login!
+
+### Backup Codes
+- Generate backup codes for emergency access when you don't have your phone
+- Each code can only be used once
+- Store these securely - they won't be shown again
+
+## Project Structure
+
+```
+client/src/
+├── App.js              # Main app with routing
+├── components/
+│   ├── Login.js        # Login form with 2FA
+│   └── Dashboard.js    # Device management UI
+└── App.css             # Global styles
+```
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `npm start` - Start development server
+- `npm run build` - Build for production
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React 19
+- Axios (API calls)

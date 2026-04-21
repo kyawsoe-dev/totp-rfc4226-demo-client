@@ -27,17 +27,7 @@ function App() {
     return <Login apiUrl={API_URL} onLogin={handleLogin} />;
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>TOTP 2FA Demo</h1>
-        <button onClick={handleLogout} className="logout-btn">Logout</button>
-      </header>
-      <main>
-        <Dashboard apiUrl={API_URL} token={token} username={username} />
-      </main>
-    </div>
-  );
+  return <Dashboard apiUrl={API_URL} token={token} username={username} onLogout={handleLogout} />;
 }
 
 export default App;

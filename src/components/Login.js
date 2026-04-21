@@ -22,8 +22,6 @@ function Login({ apiUrl, onLogin }) {
       if (res.data.requires2FA) {
         setStep('2fa');
         const devicesRes = await axios.get(`${apiUrl}/auth/devices`, { params: { username } });
-        console.log(devices, "devices");
-        
         setDevices(devicesRes.data);
         if (devicesRes.data.length > 0) {
           setSelectedDevice(devicesRes.data[0].id);
@@ -67,50 +65,77 @@ function Login({ apiUrl, onLogin }) {
     }
   };
 
+  const getStepIndicator = () => {
+    const steps = ['credentials', '2fa', 'backup'];
+    const currentIndex = steps.indexOf(step);
+    return (
+      <div className="step-indicator">
+        {steps.map((s, i) => (
+          <div key={s} className={`step-dot ${i <= currentIndex ? 'active' : ''}`} />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2>TOTP 2FA Login</h2>
+        <h2>TOTP 2FA</h2>
+        <p className="subtitle">Secure Authentication Portal</p>
         
+        {getStepIndicator()}
         {error && <div className="error">{error}</div>}
 
         {step === 'credentials' && (
           <form onSubmit={handleCredentialsSubmit}>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Login</button>
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit">Continue</button>
           </form>
         )}
 
         {step === '2fa' && (
           <div>
             <form onSubmit={handle2FASubmit}>
-              <select value={selectedDevice} onChange={(e) => setSelectedDevice(e.target.value)}>
-                {devices.map(d => (
-                  <option key={d.id} value={d.id}>{d.deviceName}</option>
-                ))}
-              </select>
-              <input
-                type="text"
-                placeholder="Enter OTP Code"
-                value={otpToken}
-                onChange={(e) => setOtpToken(e.target.value)}
-                maxLength={6}
-              />
+              <div className="form-group device-select-wrapper">
+                <label>Select Device</label>
+                <select value={selectedDevice} onChange={(e) => setSelectedDevice(e.target.value)}>
+                  {devices.map(d => (
+                    <option key={d.id} value={d.id}>{d.deviceName}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Verification Code</label>
+                <input
+                  type="text"
+                  placeholder="000000"
+                  value={otpToken}
+                  onChange={(e) => setOtpToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  maxLength={6}
+                  className="otp-display"
+                />
+              </div>
               <button type="submit">Verify</button>
             </form>
             <button className="backup-btn" onClick={() => setStep('backup')}>
-              Use Backup Code
+              Use Backup Code Instead
             </button>
           </div>
         )}
@@ -118,12 +143,15 @@ function Login({ apiUrl, onLogin }) {
         {step === 'backup' && (
           <div>
             <form onSubmit={handleBackupSubmit}>
-              <input
-                type="text"
-                placeholder="Enter Backup Code"
-                value={backupCode}
-                onChange={(e) => setBackupCode(e.target.value)}
-              />
+              <div className="form-group">
+                <label>Backup Code</label>
+                <input
+                  type="text"
+                  placeholder="Enter backup code"
+                  value={backupCode}
+                  onChange={(e) => setBackupCode(e.target.value)}
+                />
+              </div>
               <button type="submit">Verify</button>
             </form>
             <button className="backup-btn" onClick={() => setStep('2fa')}>

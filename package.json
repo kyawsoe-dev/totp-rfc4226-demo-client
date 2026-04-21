@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "description": "TOTP RFC4226 demo application built with React",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",

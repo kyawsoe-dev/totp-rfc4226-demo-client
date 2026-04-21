@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "totp-rfc4226-demo-backend",
   "version": "0.1.0",
   "description": "TOTP RFC4226 demo application client",
   "private": true,
